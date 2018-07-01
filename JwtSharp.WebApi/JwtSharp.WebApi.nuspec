@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/datvm/JwtSharp/blob/master/LICENSE.MD</licenseUrl>
+    <projectUrl>https://github.com/datvm/JwtSharp</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Version</releaseNotes>
+    <copyright>© 2018 Luke Vo</copyright>
+    <tags>jwt aspnet core net framework authentication authorization</tags>
+  </metadata>
+</package>
