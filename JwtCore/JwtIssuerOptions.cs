@@ -11,7 +11,7 @@ namespace JwtCore
         public string SecurityAlgorithm { get; set; } = SecurityAlgorithms.HmacSha256;
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public int ExpireSeconds { get; set; } = 1800;
+        public int? ExpireSeconds { get; set; } = 1800;
 
         public string SecurityKey
         {

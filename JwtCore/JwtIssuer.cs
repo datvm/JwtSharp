@@ -35,7 +35,7 @@ namespace JwtCore
             this.Options = options;
 
             this.signingCredential = new SigningCredentials(this.Options.IssuerSigningKey, this.Options.SecurityAlgorithm);
-            
+
             this.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
@@ -48,7 +48,7 @@ namespace JwtCore
                 IssuerSigningKey = this.Options.IssuerSigningKey,
 
                 ValidateLifetime = true,
-                RequireExpirationTime = true,
+                RequireExpirationTime = this.Options.ExpireSeconds != null,
             };
         }
 
@@ -81,10 +81,22 @@ namespace JwtCore
                 issuer: this.Options.Issuer,
                 audience: this.Options.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(this.Options.ExpireSeconds),
+                expires: this.GetExpirationTime(),
                 signingCredentials: this.signingCredential);
 
             return this.WriteToken(token);
+        }
+
+        private DateTime? GetExpirationTime()
+        {
+            if (this.Options.ExpireSeconds == null)
+            {
+                return null;
+            }
+            else
+            {
+                return DateTime.Now.AddSeconds(this.Options.ExpireSeconds.Value);
+            }
         }
 
         public string WriteToken(JwtSecurityToken token)
