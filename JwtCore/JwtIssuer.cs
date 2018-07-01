@@ -13,16 +13,32 @@ namespace JwtCore
     {
 
         private SigningCredentials signingCredential;
-        private JwtSecurityTokenHandler jwtTokenHandler;
+        private JwtSecurityTokenHandler tokenHandler;
 
         public JwtIssuerOptions Options { get; private set; }
+        public TokenValidationParameters TokenValidationParameters { get; private set; }
 
         public JwtIssuer(JwtIssuerOptions options)
         {
             this.Options = options;
 
             this.signingCredential = new SigningCredentials(this.Options.IssuerSigningKey, this.Options.SecurityAlgorithm);
-            this.jwtTokenHandler = new JwtSecurityTokenHandler();
+            this.tokenHandler = new JwtSecurityTokenHandler();
+
+            this.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidIssuer = this.Options.Issuer,
+
+                ValidateAudience = true,
+                ValidAudience = this.Options.Audience,
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = this.Options.IssuerSigningKey,
+
+                ValidateLifetime = true,
+                RequireExpirationTime = true,
+            };
         }
 
         public JwtIssuer(Func<JwtIssuerOptions> options) : this(options()) { }
@@ -43,7 +59,41 @@ namespace JwtCore
                 expires: DateTime.Now.AddSeconds(this.Options.ExpireSeconds),
                 signingCredentials: this.signingCredential);
 
-            return this.jwtTokenHandler.WriteToken(token);
+            return this.tokenHandler.WriteToken(token);
+        }
+
+        public JwtSecurityToken ReadToken(string token)
+        {
+            try
+            {
+                return this.tokenHandler.ReadToken(token) as JwtSecurityToken;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public ClaimsPrincipal GetPrincipal(string token)
+        {
+            try
+            {
+                if (token == null)
+                {
+                    return null;
+                }
+
+                var principal = tokenHandler.ValidateToken(
+                    token,
+                    this.TokenValidationParameters,
+                    out var securityToken);
+
+                return principal;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
     }
