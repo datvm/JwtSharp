@@ -22,13 +22,12 @@ namespace JwtCore
             set
             {
                 this.securityKeyField = value;
-                this.issuerSingingKeyField = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(value));
+                this.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(value));
             }
         }
 
         public SymmetricSecurityKey IssuerSigningKey { get; private set; }
 
-        private SymmetricSecurityKey issuerSingingKeyField;
         private string securityKeyField;
 
     }

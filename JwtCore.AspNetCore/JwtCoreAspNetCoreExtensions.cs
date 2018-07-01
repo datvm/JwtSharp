@@ -10,33 +10,27 @@ namespace JwtCore.AspNetCore
     public static class JwtCoreAspNetCoreExtensions
     {
 
-        public static IServiceCollection AddJwtBearer(this IServiceCollection services, JwtIssuerOptions options)
+        public static IServiceCollection AddJwtIssuerAndBearer(this IServiceCollection services, JwtIssuerOptions options)
         {
+            var jwtIssuer = new JwtIssuer(options);
+            services.AddSingleton(jwtIssuer);
+
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(jwtOptions =>
                 {
-                    jwtOptions.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = options.Issuer,
-                        ValidAudience = options.Audience,
-                        IssuerSigningKey = options.IssuerSigningKey,
-                    };
+                    jwtOptions.TokenValidationParameters = jwtIssuer.TokenValidationParameters;
                 });
-
-            var jwtIssuer = new JwtIssuer(options);
-            services.AddSingleton(jwtIssuer);
 
             return services;
         }
 
-        public static IServiceCollection AddJwtBearer(this IServiceCollection services, Func<JwtIssuerOptions> options)
+        public static IServiceCollection AddJwtIssuerAndBearer(this IServiceCollection services, Action<JwtIssuerOptions> optionsAction)
         {
-            return AddJwtBearer(services, options());
+            var options = new JwtIssuerOptions();
+            optionsAction?.Invoke(options);
+
+            return AddJwtIssuerAndBearer(services, options);
         }
         
     }

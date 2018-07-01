@@ -13,18 +13,29 @@ namespace JwtCore
     {
 
         private SigningCredentials signingCredential;
-        private JwtSecurityTokenHandler tokenHandler;
 
         public JwtIssuerOptions Options { get; private set; }
         public TokenValidationParameters TokenValidationParameters { get; private set; }
 
         public JwtIssuer(JwtIssuerOptions options)
         {
+            this.Initialize(options);
+        }
+
+        public JwtIssuer(Action<JwtIssuerOptions> optionsAction)
+        {
+            var options = new JwtIssuerOptions();
+            optionsAction?.Invoke(options);
+
+            this.Initialize(options);
+        }
+
+        private void Initialize(JwtIssuerOptions options)
+        {
             this.Options = options;
 
             this.signingCredential = new SigningCredentials(this.Options.IssuerSigningKey, this.Options.SecurityAlgorithm);
-            this.tokenHandler = new JwtSecurityTokenHandler();
-
+            
             this.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
@@ -41,16 +52,30 @@ namespace JwtCore
             };
         }
 
-        public JwtIssuer(Func<JwtIssuerOptions> options) : this(options()) { }
-
-        public string IssueToken(params KeyValuePair<string, string>[] claims)
+        public string IssueToken(IEnumerable<KeyValuePair<string, string>> claims)
         {
             return this.IssueToken(claims
                 .Select(q => new Claim(q.Key, q.Value))
                 .ToArray());
         }
 
-        public string IssueToken(params Claim[] claims)
+        public string IssueToken(params string[] claimPairs)
+        {
+            if (claimPairs.Length % 2 != 0)
+            {
+                throw new ArgumentException("Claims Pairs must have even number of elements", nameof(claimPairs));
+            }
+
+            var claims = new Claim[claimPairs.Length / 2];
+            for (int i = 0; i < claimPairs.Length; i += 2)
+            {
+                claims[i / 2] = new Claim(claimPairs[i], claimPairs[i + 1]);
+            }
+
+            return this.IssueToken(claims);
+        }
+
+        public string IssueToken(IEnumerable<Claim> claims)
         {
             var token = new JwtSecurityToken(
                 issuer: this.Options.Issuer,
@@ -59,14 +84,21 @@ namespace JwtCore
                 expires: DateTime.Now.AddSeconds(this.Options.ExpireSeconds),
                 signingCredentials: this.signingCredential);
 
-            return this.tokenHandler.WriteToken(token);
+            return this.WriteToken(token);
+        }
+
+        public string WriteToken(JwtSecurityToken token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
 
         public JwtSecurityToken ReadToken(string token)
         {
             try
             {
-                return this.tokenHandler.ReadToken(token) as JwtSecurityToken;
+                var tokenHandler = new JwtSecurityTokenHandler();
+                return tokenHandler.ReadToken(token) as JwtSecurityToken;
             }
             catch (Exception)
             {
@@ -83,6 +115,7 @@ namespace JwtCore
                     return null;
                 }
 
+                var tokenHandler = new JwtSecurityTokenHandler();
                 var principal = tokenHandler.ValidateToken(
                     token,
                     this.TokenValidationParameters,
