@@ -1,4 +1,4 @@
-JWT Sharp is a small utility library for issuing and validating JWT Bearer. It can be used for both .NET Core and .NET Framework projet, with sub-packages for ASP.NET Core and ASP.NET Web API 2 projects.
+JWT Sharp is a small utility library for issuing and validating JWT Bearer. It can be used for both .NET Core and .NET Framework project, with sub-packages for ASP.NET Core and ASP.NET Web API 2 projects.
 
 For more details and documents, check the [Wiki page](https://github.com/datvm/JwtSharp/wiki/Getting-Started).
 
