@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtCore", "JwtCore\JwtCore.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtCore.AspNetCore", "JwtCore.AspNetCore\JwtCore.AspNetCore.csproj", "{765D40F3-FF33-40C7-8D8C-BEC73FA93DC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtCore.WebApi", "JwtCore.WebApi\JwtCore.WebApi.csproj", "{C04B6565-C8EB-4A93-87CB-9073228AFB75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{765D40F3-FF33-40C7-8D8C-BEC73FA93DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{765D40F3-FF33-40C7-8D8C-BEC73FA93DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{765D40F3-FF33-40C7-8D8C-BEC73FA93DC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C04B6565-C8EB-4A93-87CB-9073228AFB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C04B6565-C8EB-4A93-87CB-9073228AFB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C04B6565-C8EB-4A93-87CB-9073228AFB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C04B6565-C8EB-4A93-87CB-9073228AFB75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
