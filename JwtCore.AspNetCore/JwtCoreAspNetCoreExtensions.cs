@@ -28,6 +28,9 @@ namespace JwtCore.AspNetCore
                     };
                 });
 
+            var jwtIssuer = new JwtIssuer(options);
+            services.AddSingleton(jwtIssuer);
+
             return services;
         }
 
@@ -35,6 +38,6 @@ namespace JwtCore.AspNetCore
         {
             return AddJwtBearer(services, options());
         }
-
+        
     }
 }

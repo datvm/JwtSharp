@@ -12,23 +12,16 @@ namespace JwtCore
     public sealed class JwtIssuer
     {
 
-        internal JwtIssuerOptions options { get; private set; }
         private SigningCredentials signingCredential;
         private JwtSecurityTokenHandler jwtTokenHandler;
 
-        public SymmetricSecurityKey SigningKey
-        {
-            get
-            {
-                return this.options.IssuerSigningKey;
-            }
-        }
+        public JwtIssuerOptions Options { get; private set; }
 
         public JwtIssuer(JwtIssuerOptions options)
         {
-            this.options = options;
+            this.Options = options;
 
-            this.signingCredential = new SigningCredentials(this.SigningKey, this.options.SecurityAlgorithm);
+            this.signingCredential = new SigningCredentials(this.Options.IssuerSigningKey, this.Options.SecurityAlgorithm);
             this.jwtTokenHandler = new JwtSecurityTokenHandler();
         }
 
@@ -44,10 +37,10 @@ namespace JwtCore
         public string IssueToken(params Claim[] claims)
         {
             var token = new JwtSecurityToken(
-                issuer: this.options.Issuer,
-                audience: this.options.Audience,
+                issuer: this.Options.Issuer,
+                audience: this.Options.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(this.options.ExpireSeconds),
+                expires: DateTime.Now.AddSeconds(this.Options.ExpireSeconds),
                 signingCredentials: this.signingCredential);
 
             return this.jwtTokenHandler.WriteToken(token);
