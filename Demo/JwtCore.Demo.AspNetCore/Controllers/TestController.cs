@@ -31,7 +31,7 @@ namespace JwtCore.Demo.AspNetCore.Controllers
                 var token = this.jwtIssuer.IssueToken(
                     "id", username,
                     "username", username,
-                    "password", password,
+                    "loggedInAt", DateTime.UtcNow.ToString("o"),
                     "isAdmin", (username == "admin").ToString()
                 );
 
