@@ -2,6 +2,8 @@ JWT Sharp is a small utility library for issuing and validating JWT Bearer. It c
 
 For more details and documents, check the [Wiki page](https://github.com/datvm/JwtSharp/wiki/Getting-Started).
 
+![](https://i.imgur.com/dB2QHmK.png)
+
 # Installation
 
 You can get the package from NuGet:
