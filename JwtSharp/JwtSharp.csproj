@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Luke Vo</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A small utility library for issuing and validating JWT Bearer. Can be used for both ASP.NET Core and .NET Framework Web project as well as Desktop App (no built-in flow).</Description>
+    <Copyright>© 2018 Luke Vo</Copyright>
+    <PackageLicenseUrl>https://github.com/datvm/JwtSharp/blob/master/LICENSE.MD</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/datvm/JwtSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/datvm/JwtSharp</RepositoryUrl>
+    <PackageTags>jwt aspnet core net framework authentication authorization</PackageTags>
+    <PackageReleaseNotes>Initial Version</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
+  </ItemGroup>
+
+</Project>
