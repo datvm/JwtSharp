@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JwtCore
+namespace JwtCore.AspNetCore
 {
-
-    public static class JwtCoreExtensions
+    public static class JwtCoreAspNetCoreExtensions
     {
 
         public static IServiceCollection AddJwtBearer(this IServiceCollection services, JwtIssuerOptions options)
@@ -23,9 +22,9 @@ namespace JwtCore
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer= options.Issuer,
+                        ValidIssuer = options.Issuer,
                         ValidAudience = options.Audience,
-                        IssuerSigningKey =  options.IssuerSigningKey,
+                        IssuerSigningKey = options.IssuerSigningKey,
                     };
                 });
 
@@ -38,5 +37,4 @@ namespace JwtCore
         }
 
     }
-
 }
