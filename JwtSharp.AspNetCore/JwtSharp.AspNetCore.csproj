@@ -12,6 +12,8 @@
     <RepositoryType></RepositoryType>
     <PackageTags>jwt aspnet core net framework authentication authorization</PackageTags>
     <PackageReleaseNotes>Initial Version</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
