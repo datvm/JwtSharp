@@ -75,13 +75,23 @@ namespace JwtSharp
             return this.IssueToken(claims);
         }
 
+        public string IssueToken(params Claim[] claims)
+        {
+            return this.IssueToken((IEnumerable<Claim>)claims);
+        }
+
         public string IssueToken(IEnumerable<Claim> claims)
+        {
+            return this.IssueToken(claims, this.GetExpirationTime());
+        }
+
+        public string IssueToken(IEnumerable<Claim> claims, DateTime? expirationTime)
         {
             var token = new JwtSecurityToken(
                 issuer: this.Options.Issuer,
                 audience: this.Options.Audience,
                 claims: claims,
-                expires: this.GetExpirationTime(),
+                expires: expirationTime,
                 signingCredentials: this.signingCredential);
 
             return this.WriteToken(token);
